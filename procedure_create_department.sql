@@ -18,13 +18,15 @@ BEGIN
     END IF;
     
     -- Validar si el manager existe
-    SELECT COUNT(*)
-    INTO l_count
-    FROM employees
-    WHERE employee_id = p_manager_id;
-    
-    IF l_count = 0 THEN
-        RAISE_APPLICATION_ERROR(-20002, 'Manager does not exist.');
+    IF p_manager_id IS NOT NULL THEN
+        SELECT COUNT(*)
+        INTO l_count
+        FROM employees
+        WHERE employee_id = p_manager_id;
+        
+        IF l_count = 0 THEN
+            RAISE_APPLICATION_ERROR(-20002, 'Manager does not exist.');
+        END IF;
     END IF;
     
     -- Validar si la ubicación existe
